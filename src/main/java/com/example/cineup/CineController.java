@@ -22,7 +22,7 @@ public class CineController {
         cinePane.getChildren().addAll(sistemaReserva, empleado);
         sistemaReserva.inicializarAsientos(cinePane);
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             Cliente cliente = new Cliente("Cliente" + i, "Cliente " + i, sistemaReserva, empleado);
             cinePane.getChildren().add(cliente);
 
