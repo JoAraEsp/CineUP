@@ -2,13 +2,22 @@ package com.example.cineup.models;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.paint.Color;
 
 public class SistemaReserva extends Rectangle {
-    private final Asiento[] asientos = new Asiento[35];
+    private final Asiento[] asientos;
 
-    public SistemaReserva() {
-        super(30, 30);
-        this.setFill(javafx.scene.paint.Color.RED);
+    public SistemaReserva(double x, double y, int numAsientos) {
+        super(30, 30, javafx.scene.paint.Color.RED);
+        setTranslateX(x);
+        setTranslateY(y);
+        this.asientos = new Asiento[numAsientos];
+
+        for (int i = 0; i < asientos.length; i++) {
+            double asientoX = 100 + (i % 7) * 60; // Coordenadas de los asientos
+            double asientoY = 200 + (i / 7) * 60;
+            asientos[i] = new Asiento(asientoX, asientoY);
+        }
     }
 
     public synchronized Asiento reservarAsiento() {
@@ -18,15 +27,16 @@ public class SistemaReserva extends Rectangle {
                 return asiento;
             }
         }
-        return null; // No hay asientos disponibles
+        return null;
     }
 
     public void inicializarAsientos(Pane cinePane) {
-        for (int i = 0; i < asientos.length; i++) {
-            Asiento asiento = new Asiento();
-            asiento.setX(100 + (i % 7) * 30); // Organizar asientos en filas
-            asiento.setY(200 + (i / 7) * 30); // Organizar asientos en columnas
-            asientos[i] = asiento;
+        Rectangle fondoSala = new Rectangle(600, 300, Color.DARKSLATEGRAY);
+        fondoSala.setTranslateX(100);
+        fondoSala.setTranslateY(200);
+        cinePane.getChildren().add(fondoSala);
+
+        for (Asiento asiento : asientos) {
             cinePane.getChildren().add(asiento);
         }
     }

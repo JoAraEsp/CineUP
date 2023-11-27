@@ -6,33 +6,24 @@ import javafx.scene.shape.Circle;
 public class Asiento extends Circle {
     private boolean reservado;
 
-    public Asiento() {
+    public Asiento(double x, double y) {
         super(10, Color.LIGHTGRAY);
+        setCenterX(x);
+        setCenterY(y);
         this.reservado = false;
     }
 
-    public boolean isReservado() {
+    public synchronized boolean isReservado() {
         return reservado;
     }
 
-    public void reservar() {
+    public synchronized void reservar() {
         this.reservado = true;
         this.setFill(Color.RED);
     }
 
-    public void setX(double x) {
-        this.setCenterX(x);
-    }
-
-    public void setY(double y) {
-        this.setCenterY(y);
-    }
-
-    public double getX() {
-        return this.getCenterX();
-    }
-
-    public double getY() {
-        return this.getCenterY();
+    public synchronized void liberar() {
+        this.reservado = false;
+        this.setFill(Color.LIGHTGRAY);
     }
 }
