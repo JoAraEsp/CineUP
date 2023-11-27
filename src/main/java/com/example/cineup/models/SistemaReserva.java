@@ -32,8 +32,8 @@ public class SistemaReserva extends Rectangle {
 
     public void inicializarAsientos(Pane cinePane) {
         Rectangle fondoSala = new Rectangle(600, 300, Color.DARKSLATEGRAY);
-        fondoSala.setTranslateX(100);
-        fondoSala.setTranslateY(200);
+        fondoSala.setTranslateX(70);
+        fondoSala.setTranslateY(180);
         cinePane.getChildren().add(fondoSala);
 
         for (Asiento asiento : asientos) {
