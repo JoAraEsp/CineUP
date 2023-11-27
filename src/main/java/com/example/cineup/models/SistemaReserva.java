@@ -14,7 +14,7 @@ public class SistemaReserva extends Rectangle {
         this.asientos = new Asiento[numAsientos];
 
         for (int i = 0; i < asientos.length; i++) {
-            double asientoX = 100 + (i % 7) * 60; // Coordenadas de los asientos
+            double asientoX = 100 + (i % 7) * 60;
             double asientoY = 200 + (i / 7) * 60;
             asientos[i] = new Asiento(asientoX, asientoY);
         }

@@ -23,7 +23,7 @@ public class Cliente extends Circle {
 
     public void aparecerEnSistemaReserva() {
         setTranslateX(sistemaReserva.getTranslateX());
-        setTranslateY(sistemaReserva.getTranslateY() + 30);  // Ajustar la posición y
+        setTranslateY(sistemaReserva.getTranslateY() + 30);
         setVisible(true);
 
         esperarYDesaparecer(3, this::aparecerEnEmpleado);
@@ -31,7 +31,7 @@ public class Cliente extends Circle {
 
     private void aparecerEnEmpleado() {
         setTranslateX(empleado.getTranslateX());
-        setTranslateY(empleado.getTranslateY() + 30);  // Ajustar la posición y
+        setTranslateY(empleado.getTranslateY() + 30);
         setVisible(true);
 
         esperarYDesaparecer(3, () -> {
