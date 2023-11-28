@@ -3,10 +3,10 @@ package com.example.cineup;
 import com.example.cineup.models.Cliente;
 import com.example.cineup.models.Empleado;
 import com.example.cineup.models.SistemaReserva;
+import com.example.cineup.threads.ClienteThread;
+import com.example.cineup.threads.ReservaThread;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
-import javafx.util.Duration;
-import javafx.animation.PauseTransition;
 
 public class CineController {
 
@@ -26,9 +26,11 @@ public class CineController {
             Cliente cliente = new Cliente("Cliente" + i, "Cliente " + i, sistemaReserva, empleado);
             cinePane.getChildren().add(cliente);
 
-            PauseTransition delay = new PauseTransition(Duration.seconds(i + 1));
-            delay.setOnFinished(event -> cliente.aparecerEnSistemaReserva());
-            delay.play();
+            ClienteThread clienteThread = new ClienteThread(cliente, sistemaReserva);
+            new Thread(clienteThread).start();
+
+            ReservaThread reservaThread = new ReservaThread(cliente, sistemaReserva);
+            new Thread(reservaThread).start();
         }
     }
 }
