@@ -11,6 +11,8 @@ public class Cliente extends Circle {
     private String nombre;
     private SistemaReserva sistemaReserva;
     private Empleado empleado;
+    private boolean enSistemaReserva = false;
+    private boolean enEmpleado = false;
 
     public Cliente(String id, String nombre, SistemaReserva sistemaReserva, Empleado empleado) {
         super(5, Color.BLUE);
@@ -26,8 +28,17 @@ public class Cliente extends Circle {
             setTranslateX(sistemaReserva.getTranslateX());
             setTranslateY(sistemaReserva.getTranslateY() + 30);
             setVisible(true);
+            enSistemaReserva = true;
         });
-        esperarYDesaparecer(5, this::aparecerEnEmpleado);
+        esperarYDesaparecer(5, this::moverAEmpleado);
+    }
+
+    private void moverAEmpleado() {
+        if (enSistemaReserva) {
+            enSistemaReserva = false;
+            enEmpleado = true;
+            aparecerEnEmpleado();
+        }
     }
 
     public void aparecerEnEmpleado() {

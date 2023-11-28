@@ -26,11 +26,8 @@ public class CineController {
             Cliente cliente = new Cliente("Cliente" + i, "Cliente " + i, sistemaReserva, empleado);
             cinePane.getChildren().add(cliente);
 
-            ClienteThread clienteThread = new ClienteThread(cliente, sistemaReserva);
-            new Thread(clienteThread).start();
-
-            ReservaThread reservaThread = new ReservaThread(cliente, sistemaReserva);
-            new Thread(reservaThread).start();
+            new Thread(new ClienteThread(cliente, sistemaReserva)).start();
+            new Thread(new ReservaThread(cliente, sistemaReserva)).start();
         }
     }
 }

@@ -15,17 +15,7 @@ public class ClienteThread implements Runnable {
 
     @Override
     public void run() {
-        Platform.runLater(() -> {
-            sistemaReserva.agregarClienteALaCola(cliente);
             cliente.aparecerEnSistemaReserva();
-        });
-
-        try {
-            Thread.sleep(5000); // Espera para simular el tiempo en el área de reserva
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-
-        Platform.runLater(cliente::aparecerEnEmpleado);
     }
 }
+

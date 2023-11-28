@@ -6,10 +6,13 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
-import java.util.LinkedList;
-import java.util.Queue;
+
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class SistemaReserva extends Rectangle {
+    private final AtomicInteger contadorClientes = new AtomicInteger(0);
     private final Asiento[] asientos;
     private final Queue<Cliente> colaClientes = new LinkedList<>();
 
@@ -34,50 +37,41 @@ public class SistemaReserva extends Rectangle {
                 Thread.currentThread().interrupt();
             }
         }
-        for (Asiento asiento : asientos) {
-            if (!asiento.isReservado()) {
-                asiento.reservar();
-                colaClientes.poll();
-                notifyAll();
-
-                if (todosLosAsientosOcupados()) {
-                    vaciarSala();
-                }
-
-                return asiento;
-            }
-        }
         colaClientes.poll();
         notifyAll();
-        return null;
-    }
 
-    private boolean todosLosAsientosOcupados() {
-        for (Asiento asiento : asientos) {
-            if (!asiento.isReservado()) {
-                return false;
-            }
+        if (contadorClientes.getAndIncrement() >= 100) {
+            return null;
         }
-        return true;
-    }
 
-    private void vaciarSala() {
-        PauseTransition wait = new PauseTransition(Duration.seconds(10)); // Tiempo antes de vaciar
-        wait.setOnFinished(event -> Platform.runLater(() -> {
-            for (Asiento asiento : asientos) {
-                asiento.liberar();
-            }
-        }));
-        wait.play();
+        Random random = new Random();
+        List<Asiento> asientosDisponibles = Arrays.stream(asientos)
+                .filter(a -> !a.isReservado())
+                .collect(Collectors.toList());
+
+        if (!asientosDisponibles.isEmpty()) {
+            Asiento asiento = asientosDisponibles.get(random.nextInt(asientosDisponibles.size()));
+            asiento.reservar();
+            return asiento;
+        }
+        return null;
     }
 
     public synchronized void agregarClienteALaCola(Cliente cliente) {
         colaClientes.add(cliente);
+        while (colaClientes.peek() != cliente) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+        colaClientes.poll();
         notifyAll();
     }
 
     public synchronized void notificarLiberacionAsiento() {
-        notifyAll(); // Notificar a los clientes que esperan un asiento
+        notifyAll();
     }
 
     public void inicializarAsientos(Pane cinePane) {

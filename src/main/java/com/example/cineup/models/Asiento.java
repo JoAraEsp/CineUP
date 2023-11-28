@@ -7,23 +7,23 @@ public class Asiento extends Circle {
     private boolean reservado;
 
     public Asiento(double x, double y) {
-        super(10, Color.LIGHTGRAY);
+        super(10, Color.GRAY);
         setCenterX(x);
         setCenterY(y);
-        this.reservado = false;
-    }
-
-    public synchronized boolean isReservado() {
-        return reservado;
+        reservado = false;
     }
 
     public synchronized void reservar() {
-        this.reservado = true;
+        reservado = true;
         this.setFill(Color.RED);
     }
 
     public synchronized void liberar() {
-        this.reservado = false;
-        this.setFill(Color.LIGHTGRAY);
+        reservado = false;
+        this.setFill(Color.GRAY);
+    }
+
+    public synchronized boolean isReservado() {
+        return reservado;
     }
 }

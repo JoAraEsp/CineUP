@@ -1,6 +1,7 @@
 package com.example.cineup.models;
 
 import javafx.scene.shape.Polygon;
+import javafx.scene.paint.Color;
 
 public class Empleado extends Polygon {
 
@@ -8,6 +9,7 @@ public class Empleado extends Polygon {
         getPoints().addAll(0.0, 0.0, 20.0, 10.0, 0.0, 20.0);
         setTranslateX(x);
         setTranslateY(y);
-        this.setFill(javafx.scene.paint.Color.GREEN);
+        this.setFill(Color.GREEN);
     }
 }
+
